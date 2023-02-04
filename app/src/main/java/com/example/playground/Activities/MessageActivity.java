@@ -59,6 +59,7 @@ public class MessageActivity extends AppCompatActivity {
         databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
         databaseRef.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
