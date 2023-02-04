@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.HomeFragment"
+    android:background="@drawable/neon_background">
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        app:queryHint="Choose a game...."
+        app:iconifiedByDefault="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/searchview_bg"
+        >
+    </androidx.appcompat.widget.SearchView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleView"
+        android:layout_width="245dp"
+        android:layout_height="350dp"
+        android:layout_below="@+id/searchView"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/recycleview_bg"
+        android:visibility="invisible">
+
+    </androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>

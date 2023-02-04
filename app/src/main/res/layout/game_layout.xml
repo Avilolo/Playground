@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/item_bg"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/game_image_IV"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:civ_border_width="3dp"
+            app:civ_border_color="@color/black"
+            ></de.hdodenhof.circleimageview.CircleImageView>
+
+        <TextView
+            android:id="@+id/game_name_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="casual"
+            android:text=""
+            android:textSize="20dp"
+            android:paddingTop="10dp"
+            android:paddingStart="15dp"
+            android:textAlignment="center"
+            android:layout_gravity="center"></TextView>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
