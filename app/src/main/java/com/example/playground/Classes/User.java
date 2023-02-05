@@ -1,6 +1,5 @@
 package com.example.playground.Classes;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public class User {
@@ -40,17 +39,6 @@ public class User {
     public String getImageURL() { return imageURL; }
 
     public void setImageURL(String imageURL) { this.imageURL = imageURL; }
-
-//    public ArrayList<String> getFriends() { return friends; }
-
-//    public void setFriends(ArrayList<String> friends) { this.friends = friends; }
-
-    public boolean areFriends(String otherUid) {
-        if (friends.containsKey(otherUid)) {
-            return true;
-        }
-        return false;
-    }
 
     public Map<String, String> getFriends() {
         return friends;

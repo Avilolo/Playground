@@ -3,6 +3,8 @@ package com.example.playground.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.playground.Classes.Chat;
+import com.example.playground.Classes.MessageAdapter;
 import com.example.playground.Classes.User;
 import com.example.playground.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,7 +26,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -36,6 +42,10 @@ public class MessageActivity extends AppCompatActivity {
     Intent intent;
     FirebaseUser firebaseUser;
     DatabaseReference databaseRef;
+    RecyclerView recyclerView;
+    MessageAdapter msgAdapter;
+    List<Chat> chats;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +56,11 @@ public class MessageActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +83,7 @@ public class MessageActivity extends AppCompatActivity {
                     profile_image.setImageResource(R.drawable.default_profile);
                 else
                     Glide.with(MessageActivity.this).load(user.getImageURL()).into(profile_image);
+                readMessages(firebaseUser.getUid(), userId, user.getImageURL());
             }
 
             @Override
@@ -94,6 +110,7 @@ public class MessageActivity extends AppCompatActivity {
         send_text = findViewById(R.id.text_send);
         send_btn = findViewById(R.id.send_btn);
         username = findViewById(R.id.message_name);
+        recyclerView = findViewById(R.id.message_rv);
         intent = getIntent();
     }
 
@@ -108,32 +125,30 @@ public class MessageActivity extends AppCompatActivity {
         reference.child("Chats").push().setValue(hashMap);
     }
 
+    private void readMessages(final String myid, final String userid, String imageurl) {
+        chats = new ArrayList<>();
 
+        databaseRef = FirebaseDatabase.getInstance().getReference("Chats");
+        databaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                chats.clear();
+                for (DataSnapshot dataSnap : snapshot.getChildren()) {
+                    Chat chat = dataSnap.getValue(Chat.class);
+                    if (chat.getReceiver().equals(myid) && chat.getSender().equals(userid) ||
+                            chat.getReceiver().equals(userid) && chat.getSender().equals(myid))
+                        chats.add(chat);
+                }
+                msgAdapter = new MessageAdapter(MessageActivity.this, chats, imageurl);
+                recyclerView.setAdapter(msgAdapter);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            }
+        });
+    }
 
 
 }

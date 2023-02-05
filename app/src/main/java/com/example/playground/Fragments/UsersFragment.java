@@ -84,8 +84,6 @@ public class UsersFragment extends Fragment {
                              {
                                  if (friends.containsKey(user.getId()))
                                     users.add(user);
-                                //TODO understand how to create user = current user object and check if his
-                                //TODO friends contains any of the users names
                             }
                         }
                         usersAdapter = new UsersRecycleViewAdapter(getContext(), users);

@@ -34,16 +34,16 @@ public class LoginActivity extends AppCompatActivity {
     DatabaseReference databaseRef;
 
 
-//    @Override
-//    protected void onStart() {
-//        //auto login
-//        super.onStart();
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        if (user != null) {
-//            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//            finish();
-//        }
-//    }
+    @Override
+    protected void onStart() {
+        //auto login
+        super.onStart();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,20 +133,6 @@ public class LoginActivity extends AppCompatActivity {
                                     .getReference("Users")
                                     .child(userId);
 
-//                            HashMap<String, Object> hashMap = new HashMap<>();
-//                            hashMap.put("id", userId);
-//                            hashMap.put("imageURL", "default");
-//                            hashMap.put("username", username);
-//                            hashMap.put("friends", new ArrayList<String>());
-//                            databaseRef.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//                                    if (task.isSuccessful()) {
-//                                        Toast.makeText(LoginActivity.this, "Register complete", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                }
-//                            });
-//                        }
                             User user = new User(userId, "default", username, new HashMap<String, String>());
 
                             databaseRef.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
