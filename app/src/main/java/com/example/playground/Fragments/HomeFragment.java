@@ -14,6 +14,12 @@ import android.view.ViewGroup;
 import com.example.playground.Classes.MyGamesList;
 import com.example.playground.Classes.GamesRecycleViewAdapter;
 import com.example.playground.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 
 public class HomeFragment extends Fragment {
@@ -63,5 +69,27 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycleView);
         searchView = view.findViewById(R.id.searchView);
         searchView.clearFocus();
+    }
+
+    private void status(String status) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", status);
+
+        databaseRef.updateChildren(hashMap);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        status("offline");
     }
 }

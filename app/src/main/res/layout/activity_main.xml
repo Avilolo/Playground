@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_nav"
-        >
+        android:background="@color/purple_200">
 
     </FrameLayout>
 
@@ -21,7 +21,7 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu"
-        app:backgroundTint="@color/purple_200"
+        app:backgroundTint="@color/purple_700"
         >
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>

@@ -4,6 +4,7 @@ import static android.app.Activity.RESULT_OK;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,16 +23,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.RequestManager;
 import com.example.playground.Activities.LoginActivity;
+import com.example.playground.Activities.MainActivity;
 import com.example.playground.Classes.User;
 import com.example.playground.R;
 import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -57,6 +63,7 @@ public class ProfileFragment extends Fragment {
     FirebaseUser firebaseUser;
     DatabaseReference databaseRef;
     StorageReference storageReference;
+    Context context;
     private static final int IMAGE_REQUEST = 1;
     private Uri imageUri;
     private StorageTask uploadTask;
@@ -87,7 +94,8 @@ public class ProfileFragment extends Fragment {
                 if (user.getImageURL().equals("default"))
                     profileImage.setImageResource(R.drawable.default_profile);
                 else
-                    Glide.with(ProfileFragment.this).load(user.getImageURL()).into(profileImage);
+                    if (context != null && getActivity() != null)
+                        Glide.with(context).load(user.getImageURL()).into(profileImage);
             }
 
             @Override
@@ -123,8 +131,9 @@ public class ProfileFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
+                status("offline");
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getActivity(), LoginActivity.class));
+                startActivity(new Intent(getActivity(), LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 return true;
         }
         return false;
@@ -177,9 +186,17 @@ public class ProfileFragment extends Fragment {
                         pd.dismiss();
                     }
                 }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    pd.dismiss();
+                }
             });
-        } else
+        } else {
             Toast.makeText(getContext(), "No image selected", Toast.LENGTH_SHORT).show();
+            pd.dismiss();
+        }
     }
 
     @Override
@@ -187,12 +204,39 @@ public class ProfileFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK
-        && data != null && data.getData() != null){
+                && data != null && data.getData() != null) {
             imageUri = data.getData();
         }
         if (uploadTask != null && uploadTask.isInProgress())
             Toast.makeText(getContext(), "Upload in progress", Toast.LENGTH_SHORT).show();
         else
             uploadImage();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
+    private void status(String status) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", status);
+
+        databaseRef.updateChildren(hashMap);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        status("offline");
     }
 }

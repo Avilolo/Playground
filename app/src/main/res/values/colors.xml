@@ -12,4 +12,6 @@
     <color name="purple_neon">#9D00FF</color>
     <color name="cyan_neon">#00FFFF</color>
     <color name="green">#22CF80</color>
+    <color name="green_online">#00C621</color>
+    <color name="grey_offline">#818181</color>
 </resources>

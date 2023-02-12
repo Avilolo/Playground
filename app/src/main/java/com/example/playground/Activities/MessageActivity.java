@@ -65,13 +65,13 @@ public class MessageActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                startActivity(new Intent(MessageActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
         String userId = intent.getStringExtra("userid");
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
 
         databaseRef.addValueEventListener(new ValueEventListener() {
 
@@ -82,7 +82,7 @@ public class MessageActivity extends AppCompatActivity {
                 if (user.getImageURL().equals("default"))
                     profile_image.setImageResource(R.drawable.default_profile);
                 else
-                    Glide.with(MessageActivity.this).load(user.getImageURL()).into(profile_image);
+                    Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
                 readMessages(firebaseUser.getUid(), userId, user.getImageURL());
             }
 
@@ -150,5 +150,25 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
+    private void status(String status) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", status);
+
+        databaseRef.updateChildren(hashMap);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        status("offline");
+    }
 
 }

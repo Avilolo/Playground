@@ -10,7 +10,7 @@
         android:id="@+id/profile_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_neon"
+        android:background="@color/purple_700"
         app:menu="@menu/logout_menu"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -51,41 +51,51 @@
 
     </de.hdodenhof.circleimageview.CircleImageView>
 
-    <RelativeLayout
-        android:id="@+id/profile_info_layout"
-        android:layout_width="230dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="90dp"
-        android:layout_alignParentEnd="true">
+<!--        <FrameLayout-->
+<!--            android:id="@+id/user_cb_frame"-->
+<!--            android:layout_width="250dp"-->
+<!--            android:layout_height="300dp"-->
+<!--            android:layout_below="@+id/user_profile_image"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            >-->
+<!--        -->
+<!--        </FrameLayout>-->
 
-        <TextView
-            android:id="@+id/name_base"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:text="Name:"
-            android:textAlignment="center"
-            android:gravity="center">
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/profile_info_layout"-->
+<!--        android:layout_width="230dp"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:layout_marginTop="90dp"-->
+<!--        android:layout_alignParentEnd="true">-->
 
-        </TextView>
-        <TextView
-            android:id="@+id/name_info_tv"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:layout_toRightOf="@id/name_base"
-            android:textAlignment="center"
-            android:gravity="center">
+<!--        <TextView-->
+<!--            android:id="@+id/name_base"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:text="Name:"-->
+<!--            android:textAlignment="center"-->
+<!--            android:gravity="center">-->
 
-        </TextView>
-    </RelativeLayout>
-    <TextView
-        android:id="@+id/user_desc"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_below="@+id/user_profile_image"
-        android:layout_centerHorizontal="true"
-        android:text="">
+<!--        </TextView>-->
+<!--        <TextView-->
+<!--            android:id="@+id/name_info_tv"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_toRightOf="@id/name_base"-->
+<!--            android:textAlignment="center"-->
+<!--            android:gravity="center">-->
 
-    </TextView>
+<!--        </TextView>-->
+<!--    </RelativeLayout>-->
+<!--    <TextView-->
+<!--        android:id="@+id/user_desc"-->
+<!--        android:layout_width="250dp"-->
+<!--        android:layout_height="250dp"-->
+<!--        android:layout_below="@+id/user_profile_image"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:text="">-->
+
+<!--    </TextView>-->
 <!--    <androidx.appcompat.widget.AppCompatButton-->
 <!--        android:id="@+id/profile_start_chat_btn"-->
 <!--        android:layout_width="120dp"-->

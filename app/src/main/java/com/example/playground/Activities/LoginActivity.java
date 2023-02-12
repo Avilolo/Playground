@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.playground.Classes.Game;
 import com.example.playground.Classes.User;
 import com.example.playground.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -133,7 +134,8 @@ public class LoginActivity extends AppCompatActivity {
                                     .getReference("Users")
                                     .child(userId);
 
-                            User user = new User(userId, "default", username, new HashMap<String, String>());
+                            User user = new User(userId, "default", username,"offline",
+                                    new HashMap<String, String>(), new ArrayList<Game>());
 
                             databaseRef.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

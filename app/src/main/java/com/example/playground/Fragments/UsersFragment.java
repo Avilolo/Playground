@@ -3,6 +3,7 @@ package com.example.playground.Fragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,14 +24,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class UsersFragment extends Fragment {
 
+    private SearchView searchView;
     private RecyclerView recyclerView;
     private UsersRecycleViewAdapter usersAdapter;
     private List<User> users;
+    FirebaseUser firebaseUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,9 +42,24 @@ public class UsersFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_users, container, false);
 
         findViews(view);
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         users = new ArrayList<>();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                recyclerView.setVisibility(View.VISIBLE);
+                usersAdapter.filterList(newText);
+                return false;
+            }
+        });
 
         readUsers();
 
@@ -49,12 +68,11 @@ public class UsersFragment extends Fragment {
 
     private void findViews(View view) {
         recyclerView = view.findViewById(R.id.users_rv);
+        searchView = view.findViewById(R.id.users_search_view);
+        searchView.clearFocus();
     }
 
     private void readUsers() {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users");
 
         databaseRef.addValueEventListener(new ValueEventListener() {
@@ -71,7 +89,7 @@ public class UsersFragment extends Fragment {
                         users.clear();
                         User u = dataSnapshot.getValue(User.class);
 
-                        Map<String, String> friends = (Map<String, String>)  ssnapshot.getValue();
+                        Map<String, String> friends = (Map<String, String>) ssnapshot.getValue();
 
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             User user = snapshot.getValue(User.class);
@@ -80,13 +98,12 @@ public class UsersFragment extends Fragment {
                             assert user != null;
 
                             if ((!(user.getId().equals(firebaseUser.getUid())))
-                            && (friends != null))
-                             {
-                                 if (friends.containsKey(user.getId()))
+                                    && (friends != null)) {
+                                if (friends.containsKey(user.getId()))
                                     users.add(user);
                             }
                         }
-                        usersAdapter = new UsersRecycleViewAdapter(getContext(), users);
+                        usersAdapter = new UsersRecycleViewAdapter(getContext(), users, true);
                         recyclerView.setAdapter(usersAdapter);
                     }
 
@@ -104,5 +121,26 @@ public class UsersFragment extends Fragment {
 
             }
         });
+    }
+
+    private void status(String status) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", status);
+
+        databaseRef.updateChildren(hashMap);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        status("offline");
     }
 }

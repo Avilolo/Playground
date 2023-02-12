@@ -16,11 +16,11 @@
         android:id="@+id/msg_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/msg_profile"
         android:layout_marginStart="5dp"
-        android:text="hello"
+        android:layout_toRightOf="@+id/msg_profile"
+        android:background="@drawable/left_msg_bg"
         android:padding="8dp"
-        android:background="@drawable/left_msg_bg">
+        android:text="hello">
 
     </TextView>
 </RelativeLayout>
