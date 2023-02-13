@@ -26,6 +26,7 @@
         android:layout_below="@+id/searchView"
         android:layout_centerHorizontal="true"
         android:background="@drawable/recycleview_bg"
+
         android:visibility="invisible">
 
     </androidx.recyclerview.widget.RecyclerView>

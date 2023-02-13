@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.GamesCheckBoxFragment"
+    android:background="@drawable/games_list_view_bg">
+
+    <TextView
+        android:id="@+id/profile_lv_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@color/black" />
+
+    <ListView
+        android:id="@+id/games_check_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/save_games_btn"
+        android:choiceMode="multipleChoice">
+    </ListView>
+
+    <Button
+        android:id="@+id/save_games_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/right_msg_bg"
+        android:layout_centerHorizontal="true"
+        android:text="Save"></Button>
+
+</RelativeLayout>

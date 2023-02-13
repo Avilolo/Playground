@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (username.isEmpty() || email.isEmpty() || pass.isEmpty())
                     Toast.makeText(LoginActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
-                else if (pass.length() < 6 || username.length() > 11) {
+                else if (pass.length() < 6 || username.length() > 11 || username.length() < 2) {
                     Toast.makeText(LoginActivity.this, "Password must contain at least 6 letters", Toast.LENGTH_SHORT)
                             .show();
                 }
@@ -134,8 +134,17 @@ public class LoginActivity extends AppCompatActivity {
                                     .getReference("Users")
                                     .child(userId);
 
+                            //firebase wont save empty lists so we initiate with a false parameter
+                            //username length cant be under 2 (no name with one latter) so false parameter wont ever match
+                            HashMap<String, String> friends = new HashMap<String, String>();
+                            friends.put("x", "x");
+                            ArrayList<String> games = new ArrayList<String>();
+                            //this list will be override once user will set games at his profile
+                            //therefor game "x" will not affect the app
+                            games.add("x");
+
                             User user = new User(userId, "default", username,"offline",
-                                    new HashMap<String, String>(), new ArrayList<Game>());
+                                    friends, games);
 
                             databaseRef.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

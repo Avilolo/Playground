@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -116,7 +117,7 @@ public class ProfileFragment extends Fragment {
     private void findViews(View view) {
         profileImage = view.findViewById(R.id.user_profile_image);
         profileName = view.findViewById(R.id.profile_name_tv);
-        infoName = view.findViewById(R.id.name_info_tv);
+//        infoName = view.findViewById(R.id.name_info_tv);
         toolbar = view.findViewById(R.id.profile_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         toolbar.setTitle("");
@@ -134,6 +135,10 @@ public class ProfileFragment extends Fragment {
                 status("offline");
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(getActivity(), LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                return true;
+            case R.id.games:
+                getActivity().getSupportFragmentManager().beginTransaction().replace(
+                        R.id.user_cb_frame, new GamesCheckBoxFragment()).commit();
                 return true;
         }
         return false;

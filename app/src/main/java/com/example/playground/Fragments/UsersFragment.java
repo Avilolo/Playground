@@ -93,6 +93,7 @@ public class UsersFragment extends Fragment {
 
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             User user = snapshot.getValue(User.class);
+
                             //check if objects creation went wrong
                             assert firebaseUser != null;
                             assert user != null;

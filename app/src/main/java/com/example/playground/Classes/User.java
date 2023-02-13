@@ -9,11 +9,11 @@ public class User {
     private String imageURL;
     private String username;
     private String status;
-    private List<Game> gamesPlaying;
+    private List<String> gamesPlaying;
     private Map<String, String> friends;
 
     public User(String id, String imageURL, String userName, String status,
-                Map<String, String> friends, List<Game> gamesPlaying) {
+                Map<String, String> friends, List<String> gamesPlaying) {
         this.id = id;
         this.imageURL = imageURL;
         this.username = userName;
@@ -52,9 +52,9 @@ public class User {
         return friends;
     }
 
-    public List<Game> getGamesPlaying() { return gamesPlaying; }
+    public List<String> getGamesPlaying() { return gamesPlaying; }
 
-    public void setGamesPlaying(List<Game> gamesPlaying) { this.gamesPlaying = gamesPlaying; }
+    public void setGamesPlaying(List<String> gamesPlaying) { this.gamesPlaying = gamesPlaying; }
 
     public void setFriends(Map<String, String> friends) {
         this.friends = friends;
