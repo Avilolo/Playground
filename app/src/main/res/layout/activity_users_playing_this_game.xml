@@ -24,6 +24,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/users_rv"
         android:layout_width="330dp"
         android:layout_height="635dp"
         android:layout_centerHorizontal="true"

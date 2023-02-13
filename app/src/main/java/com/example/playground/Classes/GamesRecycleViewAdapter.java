@@ -48,7 +48,7 @@ public class GamesRecycleViewAdapter extends RecyclerView.Adapter<GameViewHolder
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, UsersPlayingThisGameActivity.class);
-             //   intent.putExtra(holder.name)
+                intent.putExtra("selectedGameName", holder.name.getText().toString());
                 context.startActivity(intent);
             }
         });

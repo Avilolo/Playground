@@ -16,16 +16,14 @@ import com.example.playground.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersRecycleViewAdapter extends RecyclerView.Adapter<UserViewHolder> {
+public class UsersPlayingSelectedGameAdapter extends RecyclerView.Adapter<UserViewHolder> {
 
     private Context context;
     private List<User> users;
-    private boolean isChat;
 
-    public UsersRecycleViewAdapter(Context context, List<User> users, boolean isChat) {
+    public UsersPlayingSelectedGameAdapter(Context context, List<User> users) {
         this.context = context;
         this.users = users;
-        this.isChat = isChat;
     }
 
     public void filterList(String text) {
@@ -58,22 +56,6 @@ public class UsersRecycleViewAdapter extends RecyclerView.Adapter<UserViewHolder
             holder.image.setImageResource(R.drawable.default_profile);
         else
             Glide.with(context).load(user.getImageURL()).into(holder.image);
-
-        if (isChat) {
-            if (user.getStatus().equals("online")) {
-                holder.img_on.setVisibility(View.VISIBLE);
-                holder.img_off.setVisibility(View.GONE);
-            }
-            else {
-                holder.img_on.setVisibility(View.GONE);
-                holder.img_off.setVisibility(View.VISIBLE);
-            }
-        }
-        else {
-            holder.img_on.setVisibility(View.GONE);
-            holder.img_off.setVisibility(View.GONE);
-        }
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
