@@ -9,23 +9,17 @@ import android.view.MenuItem;
 //import com.example.playground.Fragments.ChatParentFragment;
 import com.example.playground.Fragments.HomeFragment;
 import com.example.playground.Fragments.ProfileFragment;
-import com.example.playground.Fragments.UsersFragment;
+import com.example.playground.Fragments.FriendsFragment;
 import com.example.playground.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     HomeFragment homeFragment = new HomeFragment();
 //    ChatParentFragment chatParentFragment = new ChatParentFragment();
-    UsersFragment usersFragment = new UsersFragment();
+    FriendsFragment friendsFragment = new FriendsFragment();
     ProfileFragment profileFragment = new ProfileFragment();
 
 
@@ -45,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.view_fragment, homeFragment).commit();
                         return true;
                     case R.id.ic_chat:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.view_fragment, usersFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.view_fragment, friendsFragment).commit();
                         return true;
                     case R.id.ic_profile:
                         getSupportFragmentManager().beginTransaction().replace(R.id.view_fragment, profileFragment).commit();

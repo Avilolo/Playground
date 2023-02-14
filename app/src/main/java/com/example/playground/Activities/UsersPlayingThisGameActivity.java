@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import com.example.playground.Classes.User;
 import com.example.playground.Classes.UsersPlayingSelectedGameAdapter;
+import com.example.playground.Classes.UsersRecycleViewAdapter;
 import com.example.playground.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,7 +28,7 @@ public class UsersPlayingThisGameActivity extends AppCompatActivity {
 
     private SearchView searchView;
     private RecyclerView recyclerView;
-    private UsersPlayingSelectedGameAdapter usersAdapter;
+    private UsersRecycleViewAdapter usersAdapter;
     private List<User> users;
 
     @Override
@@ -60,7 +61,7 @@ public class UsersPlayingThisGameActivity extends AppCompatActivity {
         // TODO initiate adapter and set it
         users = new ArrayList<>();
         getPlayersPlayingGame();
-        usersAdapter = new UsersPlayingSelectedGameAdapter(this, users);
+        usersAdapter = new UsersRecycleViewAdapter(this, users, true);
         recyclerView.setAdapter(usersAdapter);
         searchView = findViewById(R.id.users_search_view);
         searchView.clearFocus();
@@ -77,12 +78,14 @@ public class UsersPlayingThisGameActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 users.clear();
                 //gets all games played by user
-                for (DataSnapshot snap1 : snapshot.getChildren()) {
-                    User user = snap1.getValue(User.class);
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    User user = snap.getValue(User.class);
 
                     assert user != null;
                     if (user != null) {
-                        if (user.getGamesPlaying().contains(getIntent().getStringExtra("selectedGameName")))
+
+                        if (!user.getId().equals(currentUser.getUid()) &&
+                                user.getGamesPlaying().contains(getIntent().getStringExtra("selectedGameName")))
                             users.add(user);
                     }
                 }

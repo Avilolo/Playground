@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             //firebase wont save empty lists so we initiate with a false parameter
                             //username length cant be under 2 (no name with one latter) so false parameter wont ever match
-                            HashMap<String, String> friends = new HashMap<String, String>();
+                            HashMap<String, Object> friends = new HashMap<>();
                             friends.put("x", "x");
                             ArrayList<String> games = new ArrayList<String>();
                             //this list will be override once user will set games at his profile

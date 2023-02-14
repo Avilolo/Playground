@@ -123,6 +123,67 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("message", msg);
 
         reference.child("Chats").push().setValue(hashMap);
+
+        //update friends lists of the sender & receiver
+        reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                HashMap<String, String> temp = new HashMap<>();
+                User uSender = null;
+                User uReceiver = null;
+           //     String senderName = "";  //We always know the sender name since its the current user
+             //   String receiverName = "";    // but we still save it for an "easier" code understanding
+    /*          Problem: we can't get both sender and receiver id & name at one iteration
+                Solution: we update pre initiated temps with all the values and update the firebase
+                after the loop
+
+                Example:
+                if (user.getId().equals(sender) && !user.getFriends().containsValue(receiver)) {
+                        user.addFriend(receiver, "x"); -> //in this part of the code we have only
+                                                        // the receiver id but not his name
+                    }
+
+                    if (user.getId().equals(receiver) && !user.getFriends().containsValue(sender))
+                        friendsToAdd.put(sender, "x"); -> //same goes for here only with sender
+                    userFriends.updateChildren(friendsToAdd);
+    */
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    User user = snap.getValue(User.class);
+                    HashMap<String, Object> friendsToAdd = new HashMap<>();
+
+                    //update if sender doesn't have receiver as friend
+                    if (user.getId().equals(sender) && !user.getFriends().containsValue(receiver))
+                        uSender = user;
+                    //update if receiver doesn't have sender as friend
+                    if (user.getId().equals(receiver) && !user.getFriends().containsValue(sender))
+                        uReceiver = user;
+                }
+                //update the current(sender) user
+                uSender.addFriend(uReceiver.getId(), uReceiver.getUsername());
+
+                DatabaseReference userFriends = FirebaseDatabase
+                        .getInstance()
+                        .getReference("Users")
+                        .child(uSender.getId())
+                        .child("friends");
+                userFriends.updateChildren(uSender.getFriends());
+
+                //update receiver
+                uReceiver.addFriend(uSender.getId(), uSender.getUsername());
+                userFriends = FirebaseDatabase
+                        .getInstance()
+                        .getReference("Users")
+                        .child(uReceiver.getId())
+                        .child("friends");
+                userFriends.updateChildren(uReceiver.getFriends());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void readMessages(final String myid, final String userid, String imageurl) {

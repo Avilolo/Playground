@@ -10,10 +10,10 @@ public class User {
     private String username;
     private String status;
     private List<String> gamesPlaying;
-    private Map<String, String> friends;
+    private Map<String, Object> friends;
 
     public User(String id, String imageURL, String userName, String status,
-                Map<String, String> friends, List<String> gamesPlaying) {
+                Map<String, Object> friends, List<String> gamesPlaying) {
         this.id = id;
         this.imageURL = imageURL;
         this.username = userName;
@@ -48,7 +48,7 @@ public class User {
 
     public void setStatus(String status) { this.status = status; }
 
-    public Map<String, String> getFriends() {
+    public Map<String, Object> getFriends() {
         return friends;
     }
 
@@ -56,7 +56,7 @@ public class User {
 
     public void setGamesPlaying(List<String> gamesPlaying) { this.gamesPlaying = gamesPlaying; }
 
-    public void setFriends(Map<String, String> friends) {
+    public void setFriends(Map<String, Object> friends) {
         this.friends = friends;
     }
 

@@ -26,14 +26,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class UsersFragment extends Fragment {
+public class FriendsFragment extends Fragment {
 
     private SearchView searchView;
     private RecyclerView recyclerView;
     private UsersRecycleViewAdapter usersAdapter;
-    private List<User> users;
+    private List<User> friends;
     FirebaseUser firebaseUser;
 
     @Override
@@ -69,14 +68,14 @@ public class UsersFragment extends Fragment {
     private void findViews(View view) {
         recyclerView = view.findViewById(R.id.users_rv);
         searchView = view.findViewById(R.id.users_search_view);
-        users = new ArrayList<>();
-        readUsers();
-        usersAdapter = new UsersRecycleViewAdapter(getContext(), users, true);
+        friends = new ArrayList<>();
+        getFriendsFromDatabase();
+        usersAdapter = new UsersRecycleViewAdapter(getContext(), friends, true);
         recyclerView.setAdapter(usersAdapter);
         searchView.clearFocus();
     }
 
-    private void readUsers() {
+    private void getFriendsFromDatabase() {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users");
 
         databaseRef.addValueEventListener(new ValueEventListener() {
@@ -93,12 +92,9 @@ public class UsersFragment extends Fragment {
                             if ((!(user.getId().equals(firebaseUser.getUid())))
                                     && (user.getFriends() != null)) {
                                 if (user.getFriends().containsKey(user.getId()))
-                                    users.add(user);
+                                    friends.add(user);
                             }
                         }
-
-
-
 //                DatabaseReference friendsRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid())
 //                        .child("friends");
 //
@@ -132,8 +128,6 @@ public class UsersFragment extends Fragment {
 //
 //                    }
 //                });
-
-
             }
 
             @Override
@@ -142,6 +136,10 @@ public class UsersFragment extends Fragment {
             }
         });
     }
+
+//    private void updateUserFriends() {
+//        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users");
+//    }
 
     private void status(String status) {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
