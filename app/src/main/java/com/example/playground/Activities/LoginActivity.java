@@ -3,15 +3,10 @@ package com.example.playground.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
-
-import com.example.playground.Classes.Game;
 import com.example.playground.Classes.User;
 import com.example.playground.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,10 +17,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -34,17 +28,17 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseRef;
 
-
-    @Override
-    protected void onStart() {
-        //auto login
-        super.onStart();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-        }
-    }
+    // TODO REMOVE FOR AUTO LOGIN. PUT ON NOTE IF YOU DELETE FIREBASE DATA WITHOUT LOGOUT FIRST :)
+//    @Override
+//    protected void onStart() {
+//        //auto login
+//        super.onStart();
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        if (user != null) {
+//            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//            finish();
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +47,6 @@ public class LoginActivity extends AppCompatActivity {
 
         findViews();
         firebaseAuth = firebaseAuth.getInstance();
-
-
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override

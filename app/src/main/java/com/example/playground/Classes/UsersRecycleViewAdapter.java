@@ -5,16 +5,14 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.playground.Activities.MessageActivity;
 import com.example.playground.R;
-
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class UsersRecycleViewAdapter extends RecyclerView.Adapter<UserViewHolder> {
 
@@ -36,7 +34,6 @@ public class UsersRecycleViewAdapter extends RecyclerView.Adapter<UserViewHolder
             }
         }
         if (filteredUsers.isEmpty()) {
-            //TODO maybe do something here
             return;
         }
         else {

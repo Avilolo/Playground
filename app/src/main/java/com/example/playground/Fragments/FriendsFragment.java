@@ -1,17 +1,14 @@
 package com.example.playground.Fragments;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.playground.Classes.User;
 import com.example.playground.Classes.UsersRecycleViewAdapter;
 import com.example.playground.R;
@@ -22,10 +19,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 
 public class FriendsFragment extends Fragment {
 
@@ -61,7 +58,6 @@ public class FriendsFragment extends Fragment {
         });
 
 
-
         return view;
     }
 
@@ -81,53 +77,45 @@ public class FriendsFragment extends Fragment {
         databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                friends.clear();
+                /*First we get current user as object so we can iterate
+                over his friends list and check each other user id.
+                instead using two data changes we just loop twice.
+                 */
+                User currentUser = null;
+                //First loop
+                for (DataSnapshot snapshot1 : dataSnapshot.getChildren()) {
+                    User user1 = snapshot1.getValue(User.class);
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            User user = snapshot.getValue(User.class);
+                    //check if objects creation went wrong
+                    assert firebaseUser != null;
+                    assert user1 != null;
 
-                            //check if objects creation went wrong
-                            assert firebaseUser != null;
-                            assert user != null;
+                    //Get current user as user object and checks if
+                    // friends lists contains any other users id
+                    if (user1.getId().equals(firebaseUser.getUid())
+                            && (user1.getFriends() != null)) {
+                        currentUser = user1;
+                        continue;   //once we found current user we can stop loop
+//                        if (currentUser.getFriends().containsKey(user.getId()))
+//                            friends.add(user);
+                    }
+                }
+                //Second loop
+                for (DataSnapshot snapshot2 : dataSnapshot.getChildren()) {
+                    User user2 = snapshot2.getValue(User.class);
 
-                            if ((!(user.getId().equals(firebaseUser.getUid())))
-                                    && (user.getFriends() != null)) {
-                                if (user.getFriends().containsKey(user.getId()))
-                                    friends.add(user);
-                            }
-                        }
-//                DatabaseReference friendsRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid())
-//                        .child("friends");
-//
-//                friendsRef.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot ssnapshot) {
-//                        users.clear();
-//                        User u = dataSnapshot.getValue(User.class);
-//
-//                        Map<String, String> friends = (Map<String, String>) ssnapshot.getValue();
-//
-//                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                            User user = snapshot.getValue(User.class);
-//
-//                            //check if objects creation went wrong
-//                            assert firebaseUser != null;
-//                            assert user != null;
-//
-//                            if ((!(user.getId().equals(firebaseUser.getUid())))
-//                                    && (friends != null)) {
-//                                if (friends.containsKey(user.getId()))
-//                                    users.add(user);
-//                            }
-//                        }
-//                        usersAdapter = new UsersRecycleViewAdapter(getContext(), users, true);
-//                        recyclerView.setAdapter(usersAdapter);
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
+                    //check if objects creation went wrong
+                    assert firebaseUser != null;
+                    assert user2 != null;
+
+                    if (!user2.getId().equals(currentUser.getId())
+                            && currentUser.getFriends().containsKey(user2.getId())) {
+                            friends.add(user2);
+                    }
+                }
+
+
             }
 
             @Override
@@ -136,10 +124,6 @@ public class FriendsFragment extends Fragment {
             }
         });
     }
-
-//    private void updateUserFriends() {
-//        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users");
-//    }
 
     private void status(String status) {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());

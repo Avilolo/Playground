@@ -5,11 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
-
 import com.example.playground.Classes.User;
-import com.example.playground.Classes.UsersPlayingSelectedGameAdapter;
 import com.example.playground.Classes.UsersRecycleViewAdapter;
 import com.example.playground.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,10 +16,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 public class UsersPlayingThisGameActivity extends AppCompatActivity {
 

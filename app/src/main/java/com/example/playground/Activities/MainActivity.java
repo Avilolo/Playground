@@ -2,11 +2,8 @@ package com.example.playground.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.MenuItem;
-
-//import com.example.playground.Fragments.ChatParentFragment;
 import com.example.playground.Fragments.HomeFragment;
 import com.example.playground.Fragments.ProfileFragment;
 import com.example.playground.Fragments.FriendsFragment;
@@ -18,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     HomeFragment homeFragment = new HomeFragment();
-//    ChatParentFragment chatParentFragment = new ChatParentFragment();
     FriendsFragment friendsFragment = new FriendsFragment();
     ProfileFragment profileFragment = new ProfileFragment();
 
@@ -53,26 +49,4 @@ public class MainActivity extends AppCompatActivity {
     private void findViews() {
         bottomNavigationView = findViewById(R.id.bottom_nav);
     }
-
-//    private void status(String status) {
-//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-//
-//        HashMap<String, Object> hashMap = new HashMap<>();
-//        hashMap.put("status", status);
-//
-//        databaseRef.updateChildren(hashMap);
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        status("online");
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        status("offline");
-//    }
 }

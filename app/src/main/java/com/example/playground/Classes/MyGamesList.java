@@ -1,9 +1,9 @@
 package com.example.playground.Classes;
 
 import com.example.playground.R;
-
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class MyGamesList {
 
@@ -18,14 +18,13 @@ public class MyGamesList {
     }
 
     public void filterList(String text, GamesRecycleViewAdapter gamesRecycleViewAdapter) {
-        List<Game> filteredGames = new ArrayList<Game>();
+        List<Game> filteredGames = new ArrayList<>();
         for (Game game: games) {
             if (game.getName().toLowerCase().contains(text.toLowerCase())) {
                 filteredGames.add(game);
             }
         }
         if (filteredGames.isEmpty()) {
-            //TODO maybe do something here
             return;
         }
         else {

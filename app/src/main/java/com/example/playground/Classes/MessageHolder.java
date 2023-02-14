@@ -3,7 +3,6 @@ package com.example.playground.Classes;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -24,6 +23,4 @@ public class MessageHolder extends RecyclerView.ViewHolder {
         show_msg = itemView.findViewById(R.id.msg_text);
         profile_image = itemView.findViewById(R.id.msg_profile);
     }
-
-
 }
