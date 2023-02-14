@@ -72,41 +72,19 @@ public class UsersPlayingThisGameActivity extends AppCompatActivity {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users");
 
         //gets all the users data
-        databaseRef.addValueEventListener(new ValueEventListener() {
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                users.clear();
                 //gets all games played by user
                 for (DataSnapshot snap1 : snapshot.getChildren()) {
                     User user = snap1.getValue(User.class);
 
                     assert user != null;
-//                    if (user != null) {
-                    if (!user.getId().equals(currentUser.getUid())) {
-                        DatabaseReference gamesPlayedByUser = FirebaseDatabase
-                                .getInstance()
-                                .getReference("Users")
-                                .child(user.getId())
-                                .child("gamesPlaying");
-                        //TODO FOR SOME REASON GAMES CHILD IS EMPTY
-                        System.out.println("a");
-                        gamesPlayedByUser.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot2) {
-                                users.clear();
-
-                                ArrayList<String> games = (ArrayList<String>) snapshot2.getValue();
-                                if (games.contains(getIntent().getStringExtra("selectedGameName"))) {
-                                    users.add(user);
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+                    if (user != null) {
+                        if (user.getGamesPlaying().contains(getIntent().getStringExtra("selectedGameName")))
+                            users.add(user);
                     }
-//                    }
                 }
             }
 

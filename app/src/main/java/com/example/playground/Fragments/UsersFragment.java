@@ -45,7 +45,7 @@ public class UsersFragment extends Fragment {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        users = new ArrayList<>();
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -61,7 +61,7 @@ public class UsersFragment extends Fragment {
             }
         });
 
-        readUsers();
+
 
         return view;
     }
@@ -69,6 +69,10 @@ public class UsersFragment extends Fragment {
     private void findViews(View view) {
         recyclerView = view.findViewById(R.id.users_rv);
         searchView = view.findViewById(R.id.users_search_view);
+        users = new ArrayList<>();
+        readUsers();
+        usersAdapter = new UsersRecycleViewAdapter(getContext(), users, true);
+        recyclerView.setAdapter(usersAdapter);
         searchView.clearFocus();
     }
 
@@ -79,19 +83,7 @@ public class UsersFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-
-                DatabaseReference friendsRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid())
-                        .child("friends");
-
-                friendsRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot ssnapshot) {
-                        users.clear();
-                        User u = dataSnapshot.getValue(User.class);
-
-                        Map<String, String> friends = (Map<String, String>) ssnapshot.getValue();
-
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             User user = snapshot.getValue(User.class);
 
                             //check if objects creation went wrong
@@ -99,20 +91,47 @@ public class UsersFragment extends Fragment {
                             assert user != null;
 
                             if ((!(user.getId().equals(firebaseUser.getUid())))
-                                    && (friends != null)) {
-                                if (friends.containsKey(user.getId()))
+                                    && (user.getFriends() != null)) {
+                                if (user.getFriends().containsKey(user.getId()))
                                     users.add(user);
                             }
                         }
-                        usersAdapter = new UsersRecycleViewAdapter(getContext(), users, true);
-                        recyclerView.setAdapter(usersAdapter);
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
+
+//                DatabaseReference friendsRef = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid())
+//                        .child("friends");
+//
+//                friendsRef.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot ssnapshot) {
+//                        users.clear();
+//                        User u = dataSnapshot.getValue(User.class);
+//
+//                        Map<String, String> friends = (Map<String, String>) ssnapshot.getValue();
+//
+//                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                            User user = snapshot.getValue(User.class);
+//
+//                            //check if objects creation went wrong
+//                            assert firebaseUser != null;
+//                            assert user != null;
+//
+//                            if ((!(user.getId().equals(firebaseUser.getUid())))
+//                                    && (friends != null)) {
+//                                if (friends.containsKey(user.getId()))
+//                                    users.add(user);
+//                            }
+//                        }
+//                        usersAdapter = new UsersRecycleViewAdapter(getContext(), users, true);
+//                        recyclerView.setAdapter(usersAdapter);
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
 
 
             }
