@@ -29,16 +29,16 @@ public class LoginActivity extends AppCompatActivity {
     DatabaseReference databaseRef;
 
     // TODO REMOVE FOR AUTO LOGIN. PUT ON NOTE IF YOU DELETE FIREBASE DATA WITHOUT LOGOUT FIRST :)
-//    @Override
-//    protected void onStart() {
-//        //auto login
-//        super.onStart();
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        if (user != null) {
-//            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//            finish();
-//        }
-//    }
+    @Override
+    protected void onStart() {
+        //auto login
+        super.onStart();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
